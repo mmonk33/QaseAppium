@@ -34,7 +34,7 @@ Press back      | Simulate pressing the BACK button on the remote control
  
 ## Adding features
 
-The functions called through the steps in the case are described in this dictionary:
+The functions called through the steps in the case are described in Funcs.oy:
 ```Python
 functions = {
     'Press down': Remote.down,
