@@ -54,4 +54,5 @@ functions = {
     'Start': start_activity,
     'Screenshot': Allure.screenshot,
     'Wait': wait
+}
 ```
