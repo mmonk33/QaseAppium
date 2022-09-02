@@ -76,8 +76,16 @@ class ADB:
         return str(self.driver.desired_capabilities['platformVersion'])
 
 
-def check(expected, actual):
-    assert expected == actual, f'Not expected'
+def check_package(driver, expected):
+    actual = ADB.current_app()
+    assert expected in actual, f'Not expected'
+
+
+def check_element_text(driver, locator, expected):
+    locator = locator.replace("\\", '')
+    locator = eval(f'Locators.{locator}')
+    actual = find_element(driver, locator).text
+    assert actual in expected, f"NOT EQUAL ELEMENT"
 
 
 def click(driver, locator):
@@ -108,6 +116,8 @@ functions = {
     'Click': click,
     'Start': start_activity,
     'Screenshot': Allure.screenshot,
+    'Check package': check_package,
+    'Check element text': check_element_text,
     'Wait': wait
 }
 

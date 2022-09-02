@@ -37,7 +37,17 @@ def launch_step(case, driver):
         if step['data'] is None:
             launch_step_without_data(driver, step['action'])
         else:
-            launch_step_with_data(driver, step['action'], step['data'])
+            if step['expected_result'] is not None:
+                launch_step_without_data_expected_result(driver, step['action'], step['data'], step['expected_result'])
+            else:
+                launch_step_with_data(driver, step['action'], step['data'])
+
+
+def launch_step_without_data_expected_result(driver, step_title, input_data, expected_result):
+    try:
+        step_action = Funcs.functions[step_title](driver, input_data, expected_result)
+    except KeyError:
+        pytest.skip(cprint(f"\nFunction \"{step_title}\" not defined in Funcs.py", 'red'))
 
 
 def launch_step_without_data(driver, step_title):

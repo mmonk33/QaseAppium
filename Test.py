@@ -7,8 +7,10 @@ import Autorization
 import Qase
 
 
-code = os.environ['CODE']
-plan_id = os.environ['PLAN_ID']
+#code = os.environ['CODE']
+#plan_id = os.environ['PLAN_ID']
+code = 'W370'
+plan_id = '2'
 
 
 @pytest.mark.parametrize('udid', Autorization.udid.values(), ids=Autorization.udid)
