@@ -1,6 +1,7 @@
 import os
 import time
 
+import pytest_check as check
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import subprocess
@@ -46,6 +47,12 @@ def find_element(driver, locator, timer=10):
                                               message=f"Can't find element by locator {locator}")
 
 
+def get_locator(locator):
+    locator = locator.replace("\\", '')
+    locator = eval(f'Locators.{locator}')
+    return locator
+
+
 class ADB:
     def __init__(self, driver):
         self.driver = driver
@@ -62,7 +69,7 @@ class ADB:
             shell=True)))
 
     @staticmethod
-    def reboot_devcie():
+    def reboot_device():
         os.system(f'docker exec -i container-appium adb shell reboot')
 
     @staticmethod
@@ -82,15 +89,23 @@ def check_package(driver, expected):
 
 
 def check_element_text(driver, locator, expected):
-    locator = locator.replace("\\", '')
-    locator = eval(f'Locators.{locator}')
+    locator = get_locator(locator)
     actual = find_element(driver, locator).text
     assert actual in expected, f"NOT EQUAL ELEMENT"
 
 
+def check_preinstall(driver, app_list):
+    apps = app_list.split()
+    for app in apps:
+        assert app in ADB.package_installed(app)
+        driver.activate_app(app)
+        time.sleep(3)
+        assert app == driver.current_package
+        driver.terminate_app(app)
+
+
 def click(driver, locator):
-    locator = locator.replace("\\", '')
-    locator = eval(f'Locators.{locator}')
+    locator = get_locator(locator)
     find_element(driver, locator).click()
 
 
@@ -118,6 +133,7 @@ functions = {
     'Screenshot': Allure.screenshot,
     'Check package': check_package,
     'Check element text': check_element_text,
+    'Check preinstall apps': check_preinstall,
     'Wait': wait
 }
 
