@@ -91,7 +91,7 @@ def check_package(driver, expected):
 def check_element_text(driver, locator, expected):
     locator = get_locator(locator)
     actual = find_element(driver, locator).text
-    assert actual in expected, f"NOT EQUAL ELEMENT"
+    assert expected in actual, f"TEXT NOT FOUND IN ELEMENT"
 
 
 def check_preinstall(driver, app_list):
