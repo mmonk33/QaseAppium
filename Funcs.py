@@ -1,7 +1,5 @@
 import os
 import time
-
-import pytest_check as check
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import subprocess
@@ -79,8 +77,8 @@ class ADB:
             f"sed 's| .*||' | cut -d '/' -f1",
             shell=True)))
 
-    def device_version(self):
-        return str(self.driver.desired_capabilities['platformVersion'])
+    def device_version(self) -> str:
+        return self.driver.desired_capabilities['platformVersion']
 
 
 def check_package(driver, expected):

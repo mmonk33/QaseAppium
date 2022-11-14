@@ -46,6 +46,7 @@ def launch_step(case, driver):
 def launch_step_without_data_expected_result(driver, step_title, input_data, expected_result):
     try:
         step_action = Funcs.functions[step_title](driver, input_data, expected_result)
+        return step_action
     except KeyError:
         pytest.skip(cprint(f"\nFunction \"{step_title}\" not defined in Funcs.py", 'red'))
 
@@ -54,6 +55,7 @@ def launch_step_without_data(driver, step_title):
     try:
         remote = Funcs.Remote(driver)
         step_action = Funcs.functions[step_title](remote)
+        return step_action
     except KeyError:
         pytest.skip(cprint(f"\nFunction \"{step_title}\" not defined in Funcs.py", 'red'))
 
@@ -61,6 +63,7 @@ def launch_step_without_data(driver, step_title):
 def launch_step_with_data(driver, step_title, input_data):
     try:
         step_action = Funcs.functions[step_title](driver, input_data)
+        return step_action
     except KeyError:
         pytest.skip(cprint(f"\nFunction \"{step_title}\" not defined in Funcs.py", 'red'))
 
